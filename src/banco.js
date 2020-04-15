@@ -4,6 +4,7 @@ module.exports = {
     store(req,res){
         let { Nome, Cpf, Nasc, Salario, Dependentes, Empregado, TempEmprego, RestSerasa} = req.body;
         Salario = parseFloat(Salario);
+        Nasc = new Date(Nasc);
 
         let Limite = 0
 
@@ -16,15 +17,15 @@ module.exports = {
             }
 
         if (Idade < 18) {
-            return Response.status(200).json({message:"Limite não aprovado",valorLimite:Limite});
+            return res.status(200).json({message:"Limite não aprovado",valorLimite:Limite});
 
         }
         else if (RestSerasa == "S" && Empregado == "N"){
-            return Response.status(200).json({message:"Limite não aprovado",valorLimite:Limite});
+            return res.status(200).json({message:"Limite não aprovado",valorLimite:Limite});
 
         }
         else if (RestSerasa == "S" && Empregado == "S" && TempEmprego < 6){
-            return Response.status(200).json({message:"Limite não aprovado",valorLimite:Limite});
+            return res.status(200).json({message:"Limite não aprovado",valorLimite:Limite});
 
         }
 
@@ -64,6 +65,11 @@ module.exports = {
                 message: "Limite de 30% do salário bruto disponível",
                 valorLimite:Limite
             });
+        }
+        else {
+            return res.status(200).json({
+                message: "Dados Invalidos"
+            })
         }
     }
     
